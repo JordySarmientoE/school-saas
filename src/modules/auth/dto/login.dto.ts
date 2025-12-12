@@ -4,12 +4,12 @@ import { Transform } from 'class-transformer';
 
 export class LoginDto {
   @IsEmail()
-  @ApiProperty()
+  @ApiProperty({ example: 'juan.perez@example.com', required: true })
   @Transform(({ value }) => String(value).trim())
   email: string;
 
   @IsString()
-  @MinLength(5, { message: 'Password must be at least 5 characters long' })
-  @ApiProperty()
+  @MinLength(5, { message: 'Contraseña debe tener al menos 5 caracteres' })
+  @ApiProperty({ example: '12345', required: true })
   password: string;
 }

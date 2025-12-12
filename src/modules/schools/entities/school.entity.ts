@@ -1,3 +1,4 @@
+import { User } from 'src/modules/users/entities/user.entity';
 import {
   Column,
   Entity,
@@ -5,6 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  ManyToMany,
 } from 'typeorm';
 
 @Entity()
@@ -35,4 +37,7 @@ export class School {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @ManyToMany(() => User, (user) => user.schools)
+  users: User[];
 }

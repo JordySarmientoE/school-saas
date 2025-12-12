@@ -14,6 +14,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import { UserRole } from './user-role.entity';
+import { School } from 'src/modules/schools/entities/school.entity';
 
 @Entity()
 export class User {
@@ -64,4 +65,8 @@ export class User {
 
   @ManyToMany(() => Classroom, (classroom) => classroom.students)
   studentClassrooms: Classroom[];
+
+  @ManyToMany(() => User, (user) => user.studentClassrooms)
+  @JoinTable({ name: 'school_users' })
+  schools: School[];
 }

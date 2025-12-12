@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateSchoolDto } from './create-school.dto';
+import { Role } from '../entities/user-role.entity';
 
-export class SchoolDto extends CreateSchoolDto {
+export class RoleDto {
   @ApiProperty({ example: 1 })
-  schoolId: number;
+  userRoleId: number;
 
   @ApiProperty({ example: '2024-12-09T10:30:00Z' })
   createdAt: Date;
@@ -13,4 +13,7 @@ export class SchoolDto extends CreateSchoolDto {
 
   @ApiProperty({ nullable: true, example: null })
   deletedAt: Date | null;
+
+  @ApiProperty({ example: 'TEACHER', enum: Role })
+  role: Role;
 }

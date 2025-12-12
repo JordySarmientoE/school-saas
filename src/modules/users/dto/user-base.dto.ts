@@ -1,9 +1,11 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { CreateSchoolDto } from './create-school.dto';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { CreateUserDto } from './create-user.dto';
 
-export class SchoolDto extends CreateSchoolDto {
+export class UserBaseDto extends OmitType(CreateUserDto, [
+  'password',
+] as const) {
   @ApiProperty({ example: 1 })
-  schoolId: number;
+  userId: number;
 
   @ApiProperty({ example: '2024-12-09T10:30:00Z' })
   createdAt: Date;

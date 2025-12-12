@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, IsNull } from 'typeorm';
 import { School } from './entities/school.entity';
+import { CreateSchoolDto } from './dto/create-school.dto';
 
 @Injectable()
 export class SchoolsRepository {
@@ -9,6 +10,10 @@ export class SchoolsRepository {
     @InjectRepository(School)
     private readonly repository: Repository<School>,
   ) {}
+
+  async save(body: CreateSchoolDto) {
+    return this.repository.save(body);
+  }
 
   async list(): Promise<School[]> {
     return this.repository.find({
