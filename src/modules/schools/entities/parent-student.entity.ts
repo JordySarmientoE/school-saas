@@ -1,36 +1,29 @@
 import {
-  Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
   Index,
-  OneToMany,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { SchoolUser } from './school-user.entity';
 
 @Entity()
-export class School {
+export class ParentStudent {
   @PrimaryGeneratedColumn('increment')
-  schoolId: number;
+  parentStudentId: number;
 
-  @Column({ length: 100 })
+  @ManyToOne(() => SchoolUser, { nullable: false })
+  @JoinColumn({ name: 'studentId' })
   @Index()
-  name: string;
+  student: SchoolUser;
 
-  @Column({ length: 1000 })
-  address: string;
-
-  @Column({ length: 15 })
-  phone: string;
-
-  @Column({ length: 255 })
+  @ManyToOne(() => SchoolUser, { nullable: false })
+  @JoinColumn({ name: 'parentId' })
   @Index()
-  email: string;
-
-  @OneToMany(() => SchoolUser, (su) => su.school)
-  members: SchoolUser[];
+  parent: SchoolUser;
 
   @CreateDateColumn()
   createdAt: Date;

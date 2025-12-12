@@ -6,14 +6,14 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
-import { Role } from 'src/modules/users/entities/user-role.entity';
+import { SchoolRole } from 'src/modules/schools/entities/school-user.entity';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const requiredRoles = this.reflector.get<Role[]>(
+    const requiredRoles = this.reflector.get<SchoolRole[]>(
       'roles',
       context.getHandler(),
     );
@@ -22,9 +22,22 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<Request>();
     const { user } = request;
 
-    if (!user?.roles.some((role) => requiredRoles.includes(role))) {
+    const { schoolId } = request.params;
+    if (!schoolId) {
       throw new ForbiddenException(
-        'You do not have permission to access this route',
+        'No se proporcionó el ID de la escuela en los parámetros de la ruta',
+      );
+    }
+
+    if (
+      !user?.schoolUsers.some(
+        (schoolUser) =>
+          requiredRoles.includes(schoolUser.role) &&
+          schoolUser.school.schoolId === Number(schoolId),
+      )
+    ) {
+      throw new ForbiddenException(
+        'No tienes permiso para acceder a esta ruta',
       );
     }
 

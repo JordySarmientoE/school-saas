@@ -1,21 +1,23 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { SchoolDto } from 'src/modules/schools/dto/school.dto';
-import { RoleDto } from './role.dto';
-import { UserBaseDto } from './user-base.dto';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { CreateUserDto } from './create-user.dto';
+import { SchoolUserDto } from 'src/modules/schools/dto/school-user.dto';
 
-export class UserDto extends UserBaseDto {
-  @ApiProperty({ type: [SchoolDto] })
-  schools: SchoolDto[];
+export class UserDto extends OmitType(CreateUserDto, ['password'] as const) {
+  @ApiProperty({ example: 1 })
+  userId: number;
 
-  @ApiProperty({ type: [UserBaseDto], nullable: true })
-  parent: UserBaseDto | null;
+  @ApiProperty({ type: [SchoolUserDto] })
+  schoolUsers: SchoolUserDto[];
 
-  @ApiProperty({ nullable: true })
-  parentId: number | null;
+  @ApiProperty({ example: false })
+  isSuperAdmin: boolean;
 
-  @ApiProperty({ type: [RoleDto] })
-  roles: RoleDto[];
+  @ApiProperty({ example: '2024-12-09T10:30:00Z' })
+  createdAt: Date;
 
-  @ApiProperty({ type: [UserBaseDto] })
-  children: UserBaseDto[];
+  @ApiProperty({ example: '2024-12-09T10:30:00Z' })
+  updatedAt: Date;
+
+  @ApiProperty({ nullable: true, example: null })
+  deletedAt: Date | null;
 }
