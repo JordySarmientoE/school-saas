@@ -28,13 +28,14 @@ export class ListUsersDto {
 
   @IsString()
   @IsOptional()
-  @Transform(({ value }) =>
-    value === undefined ? undefined : String(value).trim(),
-  )
   @IsIn(Object.values(SchoolRole), {
     each: true,
     message: `El rol debe ser alguno de estos valores: ${Object.values(SchoolRole).join(', ')}`,
   })
-  @ApiProperty({ example: 'TEACHER', enum: SchoolRole, required: false })
+  @ApiProperty({
+    example: SchoolRole.TEACHER,
+    enum: SchoolRole,
+    required: false,
+  })
   role?: SchoolRole;
 }

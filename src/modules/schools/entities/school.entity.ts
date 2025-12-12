@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { SchoolUser } from './school-user.entity';
+import { Classroom } from 'src/modules/classes/entities/classroom.entity';
 
 @Entity()
 export class School {
@@ -31,6 +32,9 @@ export class School {
 
   @OneToMany(() => SchoolUser, (su) => su.school)
   members: SchoolUser[];
+
+  @OneToMany(() => Classroom, (classroom) => classroom.school)
+  classrooms: Classroom[];
 
   @CreateDateColumn()
   createdAt: Date;

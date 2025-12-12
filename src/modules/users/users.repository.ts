@@ -43,11 +43,12 @@ export class UsersRepository {
             role: filters.role,
           },
         }),
-        ...(schoolId && {
-          schoolUsers: {
+        schoolUsers: {
+          deletedAt: IsNull(),
+          ...(schoolId && {
             school: { schoolId },
-          },
-        }),
+          }),
+        },
       },
       relations: ['schoolUsers', 'schoolUsers.school'],
     });

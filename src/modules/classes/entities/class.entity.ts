@@ -1,13 +1,16 @@
 import {
-  Column,
   Entity,
   PrimaryGeneratedColumn,
+  Column,
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  ManyToOne,
+  Index,
   OneToMany,
 } from 'typeorm';
 import { Classroom } from './classroom.entity';
+import { ClassSchedule } from './class-schedule.entity';
 
 @Entity()
 export class Class {
@@ -15,7 +18,14 @@ export class Class {
   classId: number;
 
   @Column({ length: 100 })
+  @Index()
   name: string;
+
+  @OneToMany(() => ClassSchedule, (schedule) => schedule.class)
+  schedules: ClassSchedule[];
+
+  @ManyToOne(() => Classroom, (classroom) => classroom.classes)
+  classroom: Classroom;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -25,7 +35,4 @@ export class Class {
 
   @DeleteDateColumn()
   deletedAt: Date;
-
-  @OneToMany(() => Classroom, (classroom) => classroom.class)
-  classrooms: Classroom[];
 }
