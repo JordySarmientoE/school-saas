@@ -30,9 +30,4 @@ export class CreateSchoolDto {
   @IsOptional()
   @Transform(({ value }) => String(value).toLowerCase().toLowerCase())
   email: string;
-
-  @IsString()
-  @ApiProperty({ example: 'SCH-2024-001' })
-  @Transform(({ value }) => String(value).trim())
-  code: string;
 }

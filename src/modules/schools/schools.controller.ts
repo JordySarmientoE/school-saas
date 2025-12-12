@@ -1,16 +1,19 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { SchoolsService } from './schools.service';
 import { SchoolDto } from './dto/school.dto';
 import { CreateSchoolDto } from './dto/create-school.dto';
+import { SuperAdmin } from 'src/@common/decorators/super-admin.decorator';
+import { AuthGuard } from '@nestjs/passport';
+import { SuperAdminGuard } from 'src/@common/guards/super-admin.guard';
 
 @Controller('school')
 export class SchoolsController {
   constructor(private readonly service: SchoolsService) {}
 
-  // @Roles(Role.ADMIN)
-  // @UseGuards(AuthGuard('jwt'))
-  // @ApiBearerAuth()
+  @SuperAdmin()
+  @UseGuards(AuthGuard('jwt'), SuperAdminGuard)
+  @ApiBearerAuth()
   @Post('')
   @ApiOperation({ summary: 'Registrar Escuela' })
   @ApiResponse({
