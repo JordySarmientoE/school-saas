@@ -37,7 +37,7 @@ export class UsersService {
     return this.findById(userId);
   }
 
-  async listAll(filters: ListUsersDto) {
-    return this.usersRepository.listAll(filters);
+  async list(filters: ListUsersDto, schoolId?: number) {
+    return this.usersRepository.list(filters, schoolId);
   }
 }

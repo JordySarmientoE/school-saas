@@ -31,13 +31,23 @@ export class UsersRepository {
     return this.repository.save(user);
   }
 
-  async listAll(filters: ListUsersDto) {
+  async list(filters: ListUsersDto, schoolId?: number) {
     return this.repository.find({
       where: {
         deletedAt: IsNull(),
         ...(filters.name && { name: Like(`${filters.name}%`) }),
         ...(filters.phone && { phone: filters.phone }),
         ...(filters.email && { email: Like(`${filters.email}%`) }),
+        ...(filters.role && {
+          schoolUsers: {
+            role: filters.role,
+          },
+        }),
+        ...(schoolId && {
+          schoolUsers: {
+            school: { schoolId },
+          },
+        }),
       },
       relations: ['schoolUsers', 'schoolUsers.school'],
     });
