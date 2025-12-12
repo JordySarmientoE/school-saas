@@ -1,20 +1,14 @@
-import { Classroom } from 'src/modules/classes/entities/classroom.entity';
+import { SchoolUser } from 'src/modules/schools/entities/school-user.entity';
 import {
   Column,
-  Entity,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn,
   DeleteDateColumn,
+  Entity,
   Index,
   OneToMany,
-  ManyToOne,
-  JoinColumn,
-  ManyToMany,
-  JoinTable,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { UserRole } from './user-role.entity';
-import { School } from 'src/modules/schools/entities/school.entity';
 
 @Entity()
 export class User {
@@ -34,8 +28,11 @@ export class User {
   @Column({ length: 100 })
   lastname: string;
 
-  @Column({ length: 12, nullable: true })
+  @Column({ length: 15, nullable: true })
   phone: string;
+
+  @Column({ default: false })
+  isSuperAdmin: boolean;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -46,27 +43,6 @@ export class User {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @ManyToMany(() => UserRole, (userRole) => userRole.users, { eager: true })
-  @JoinTable({ name: 'user_roles' })
-  roles: UserRole[];
-
-  @OneToMany(() => User, (user) => user.parent)
-  children: User[];
-
-  @ManyToOne(() => User, (user) => user.children, { nullable: true })
-  @JoinColumn({ name: 'parentId' })
-  parent: User;
-
-  @Column({ nullable: true })
-  parentId: number | null;
-
-  @OneToMany(() => Classroom, (classroom) => classroom.teacher)
-  teacherClassrooms: Classroom[];
-
-  @ManyToMany(() => Classroom, (classroom) => classroom.students)
-  studentClassrooms: Classroom[];
-
-  @ManyToMany(() => User, (user) => user.studentClassrooms)
-  @JoinTable({ name: 'school_users' })
-  schools: School[];
+  @OneToMany(() => SchoolUser, (su) => su.user)
+  schoolUsers: SchoolUser[];
 }

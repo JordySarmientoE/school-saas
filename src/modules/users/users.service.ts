@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { hashString } from 'src/@common/utils/bcrypt.utils';
-import { Role } from './entities/user-role.entity';
 import { ListUsersDto } from './dto/list-users.dto';
 
 @Injectable()
@@ -27,17 +26,15 @@ export class UsersService {
       throw new NotFoundException(`Usuario con email ${body.email} ya existe`);
     }
     const hashedPassword = await hashString(body.password);
-    const role = Role.STUDENT;
-    const user = await this.usersRepository.save({
+    const { userId } = await this.usersRepository.save({
       name: body.name,
       lastname: body.lastname,
       email: body.email,
       phone: body.phone,
       password: hashedPassword,
     });
-    await this.usersRepository.assignRole(user, role);
 
-    return this.findById(user.userId);
+    return this.findById(userId);
   }
 
   async listAll(filters: ListUsersDto) {

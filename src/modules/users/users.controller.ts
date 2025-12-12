@@ -4,9 +4,8 @@ import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UserDto } from './dto/user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ListUsersDto } from './dto/list-users.dto';
-import { Role } from './entities/user-role.entity';
-import { Roles } from 'src/@common/decorators/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
+import { SuperAdmin } from 'src/@common/decorators/super-admin.decorator';
 
 @Controller('user')
 export class UsersController {
@@ -22,7 +21,7 @@ export class UsersController {
     return this.service.create(body);
   }
 
-  @Roles(Role.COORDINATOR)
+  @SuperAdmin()
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @Get('')

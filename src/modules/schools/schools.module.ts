@@ -4,10 +4,11 @@ import { SchoolsService } from './schools.service';
 import { SchoolsRepository } from './schools.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { School } from './entities/school.entity';
+import { SchoolUser } from './entities/school-user.entity';
 
 @Module({
   controllers: [SchoolsController],
   providers: [SchoolsService, SchoolsRepository],
-  imports: [TypeOrmModule.forFeature([School])],
+  imports: [TypeOrmModule.forFeature([School, SchoolUser])],
 })
 export class SchoolsModule {}
