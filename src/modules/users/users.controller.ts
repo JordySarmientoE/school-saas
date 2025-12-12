@@ -16,8 +16,6 @@ import { ListUsersDto } from './dto/list-users.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { SuperAdmin } from 'src/@common/decorators/super-admin.decorator';
 import { SuperAdminGuard } from 'src/@common/guards/super-admin.guard';
-import { Roles } from 'src/@common/decorators/roles.decorator';
-import { RolesGuard } from 'src/@common/guards/roles.guard';
 import { SchoolRole } from '../schools/entities/school-user.entity';
 
 @Controller('user')
@@ -34,7 +32,7 @@ export class UsersController {
     return this.service.create(body);
   }
 
-  @SuperAdmin()
+  @SuperAdmin(SchoolRole.COORDINATOR)
   @UseGuards(AuthGuard('jwt'), SuperAdminGuard)
   @ApiBearerAuth()
   @Get('')
@@ -47,8 +45,8 @@ export class UsersController {
     return this.service.list(filters);
   }
 
-  @Roles(SchoolRole.COORDINATOR)
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @SuperAdmin(SchoolRole.COORDINATOR)
+  @UseGuards(AuthGuard('jwt'), SuperAdminGuard)
   @ApiBearerAuth()
   @Get('school/:schoolId')
   @ApiOperation({ summary: 'Listar usuarios por escuela' })
