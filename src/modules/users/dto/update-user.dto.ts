@@ -6,7 +6,7 @@ export class UpdateUserDto {
   @IsString()
   @IsOptional()
   @Transform(({ value }) =>
-    value !== undefined ? String(value).trim() : undefined,
+    value === undefined ? undefined : String(value).trim(),
   )
   @ApiProperty({ example: 'Juan', required: false })
   name?: string;
@@ -14,7 +14,7 @@ export class UpdateUserDto {
   @IsString()
   @IsOptional()
   @Transform(({ value }) =>
-    value !== undefined ? String(value).trim() : undefined,
+    value === undefined ? undefined : String(value).trim(),
   )
   @ApiProperty({ example: 'Pérez', required: false })
   lastname?: string;
@@ -22,7 +22,7 @@ export class UpdateUserDto {
   @IsString()
   @IsOptional()
   @Transform(({ value }) =>
-    value !== undefined ? String(value).trim() : undefined,
+    value === undefined ? undefined : String(value).trim(),
   )
   @MinLength(5, { message: 'Contraseña debe tener al menos 5 caracteres' })
   @ApiProperty({ example: 'newPassword123', required: false })
