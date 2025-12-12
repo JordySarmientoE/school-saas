@@ -7,7 +7,7 @@ export class ListUsersDto {
   @IsString()
   @IsOptional()
   @Transform(({ value }) =>
-    value !== undefined ? String(value).trim() : undefined,
+    value === undefined ? undefined : String(value).trim(),
   )
   @ApiProperty({ example: 'Juan', required: false })
   name?: string;
@@ -15,7 +15,7 @@ export class ListUsersDto {
   @IsString()
   @IsOptional()
   @Transform(({ value }) =>
-    value !== undefined ? String(value).trim() : undefined,
+    value === undefined ? undefined : String(value).trim(),
   )
   @ApiProperty({ example: 'juan.perez@example.com', required: false })
   email?: string;
@@ -23,7 +23,7 @@ export class ListUsersDto {
   @IsString()
   @IsOptional()
   @Transform(({ value }) =>
-    value !== undefined ? String(value).trim() : undefined,
+    value === undefined ? undefined : String(value).trim(),
   )
   @IsIn(Object.values(Role), {
     each: true,

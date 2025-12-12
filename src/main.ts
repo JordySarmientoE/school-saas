@@ -29,7 +29,13 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 3000);
 }
 
-bootstrap().catch((err) => {
-  console.error('Error al iniciar la app:', err);
-  process.exit(1);
-});
+async function initServer() {
+  try {
+    await bootstrap();
+  } catch (error) {
+    console.error('Error al iniciar la app:', error);
+    process.exit(1);
+  }
+}
+
+void initServer();
